@@ -16,12 +16,6 @@ namespace Algorithms.Test
 			var output = InversionCount.MergeSortInversions(input);
 			input.Sort();
 			Assert.IsNotNull(output);
-			//Assert.IsTrue(output.Count == 2);
-			//for (int i = 0; i < output.Count; i++)
-			//{
-			//	Assert.IsTrue(input[i] == output[i]);
-			//	Console.Write(output[i]);
-			//}
 		}
 
 		[TestMethod]
@@ -31,13 +25,7 @@ namespace Algorithms.Test
 			var output = InversionCount.MergeSortInversions(input);
 			input.Sort();
 			Assert.IsNotNull(output);
-			//Assert.IsTrue(output.Count == 2);
-			//for (int i = 0; i < output.Count; i++)
-			//{
-			//	Assert.IsTrue(input[i] == output[i]);
-			//	Console.Write(output[i]);
-			//}
+			Assert.IsTrue(output.Inversions == 7);
 		}
-
 	}
 }

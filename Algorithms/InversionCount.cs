@@ -1,44 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Algorithms
 {
 	public class InversionCount
 	{
-		public static (List<int>, int) MergeSortInversions(List<int> input)
+		public static (List<int> Items, int Inversions) MergeSortInversions(IEnumerable<int> input)
 		{
-			if (input == null || input.Count < 2) return (input, 0);
-			var (a, b) = SplitInHalf(input);
-			var (sortedA, ai) = MergeSortInversions(a);
-			var (sortedB, bi) = MergeSortInversions(b);
-			return Merge(sortedA, sortedB, ai + bi);
-		}
+			if (input == null || input.Count() < 2) return (input.ToList(), 0);
+			(int[] a, int[] b) = AlgorithmHelpers.SplitInHalf(input.ToArray());
+			(List<int> sortedA, int ai) = MergeSortInversions(a);
+			(List<int> sortedB, int bi) = MergeSortInversions(b);
+			return Merge(sortedA.ToArray(), sortedB.ToArray(), ai + bi);
+		}		
 
-		private static (List<int>, List<int>) SplitInHalf(List<int> input)
-		{
-			List<int> h1 = new List<int>();
-			List<int> h2 = new List<int>();
-			for (int i = 0; i < input.Count / 2; i++)
-			{
-				h1.Add(input[i]);
-			}
-
-			for (int j = input.Count / 2; j < input.Count; j++)
-			{
-				h2.Add(input[j]);
-			}
-
-			return (h1, h2);
-		}
-
-		private static (List<int>, int) Merge(List<int> a, List<int> b, int inversions)
+		private static (List<int>, int) Merge(int[] a, int[] b, int inversions)
 		{
 			try
 			{
 				int totalInversions = inversions;
 				List<int> ret = null;
-				if (a is null || a.Count == 0) ret = b;
-				if (b is null || b.Count == 0) ret = a;
+				if (a is null || a.Length == 0) ret = b.ToList();
+				if (b is null || b.Length == 0) ret = a.ToList();
 
 				if (ret != null)
 				{
@@ -52,34 +36,34 @@ namespace Algorithms
 				int i = 0;
 				int j = 0;
 
-				do
+				while (i < a.Length || j < b.Length)
 				{
 					//If we're at the end of either list, just use the other list
-					if (i == a.Count)
+					if (i == a.Length)
 					{
 						ret.Add(b[j]);
 						j++;
 					}
-					else if (j == b.Count)
+					else if (j == b.Length)
 					{
 						ret.Add(a[i]);
 						i++;
 					}
 					else
 					{
-						if (a[i] < b[j])
+						if (a[i] <= b[j])
 						{
 							ret.Add(a[i]);
 							i++;
 						}
 						else
 						{
-							totalInversions += a.Count - i;
+							totalInversions += a.Length - i;
 							ret.Add(b[j]);
 							j++;
 						}
 					}
-				} while (i < a.Count || j < b.Count);
+				}
 
 				return (ret, totalInversions);
 			}

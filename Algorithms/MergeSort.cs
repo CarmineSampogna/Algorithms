@@ -1,43 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Algorithms
 {
 	public static class MergeSort
 	{
-		public static List<int> Sort(List<int> input)
+		public static List<int> Sort(int[] input)
 		{
-			if (input == null || input.Count < 2) return input;
-			var (h1, h2) = SplitInHalf(input);
-			return Merge(Sort(h1), Sort(h2));
+			if (input == null || input.Length < 2) return input.ToList();
+			(int[] h1, int[] h2) = AlgorithmHelpers.SplitInHalf(input.ToArray());
+			return Merge(Sort(h1).ToArray(), Sort(h2).ToArray());
 		}
 
-		private static (List<int>, List<int>) SplitInHalf(List<int> input)
-		{
-			List<int> h1 = new List<int>();
-			List<int> h2 = new List<int>();
-			for (int i = 0; i < input.Count / 2; i++)
-			{
-				h1.Add(input[i]);
-			}
-
-			for (int j = input.Count / 2; j < input.Count; j++)
-			{
-				h2.Add(input[j]);
-			}
-
-			return (h1, h2);
-		}
-
-
-		private static List<int> Merge(List<int> h1, List<int> h2)
+		private static List<int> Merge(int[] h1, int[] h2)
 		{
 			try
 			{
 				List<int> ret = null;
-				if (h1 is null || h1.Count == 0) ret = h2;
-				if (h2 is null || h2.Count == 0) ret = h1;
+				if (h1 is null || h1.Length == 0) ret = new List<int>(h2);
+				if (h2 is null || h2.Length == 0) ret = new List<int>(h1);
 
 				if (ret != null)
 				{
@@ -51,15 +34,15 @@ namespace Algorithms
 				int i = 0;
 				int j = 0;
 
-				do
+				while (i < h1.Length || j < h2.Length)
 				{
 					//If we're at the end of either list, just use the other list
-					if (i == h1.Count)
+					if (i == h1.Length)
 					{
 						ret.Add(h2[j]);
 						j++;
 					}
-					else if (j == h2.Count)
+					else if (j == h2.Length)
 					{
 						ret.Add(h1[i]);
 						i++;
@@ -77,7 +60,7 @@ namespace Algorithms
 							j++;
 						}
 					}
-				} while (i < h1.Count || j < h2.Count);
+				}
 
 				return ret;
 			}

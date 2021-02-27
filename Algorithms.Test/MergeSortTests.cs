@@ -11,7 +11,7 @@ namespace Algorithms.Test
 		[TestMethod]
 		public void EmptyListsTest()
 		{
-			List<int> input = new List<int>();
+			int[] input = new int[0] ;
 			var output = MergeSort.Sort(input);
 			Assert.IsNotNull(output);
 			Assert.IsTrue(output.Count == 0);
@@ -20,7 +20,7 @@ namespace Algorithms.Test
 		[TestMethod]
 		public void SingleItemTest()
 		{
-			List<int> input = new List<int>() { 1 };
+			int[] input = new[] { 1 };
 			var output = MergeSort.Sort(input);
 			Assert.IsNotNull(output);
 			Assert.IsTrue(output.Count == 1);
@@ -30,16 +30,16 @@ namespace Algorithms.Test
 		[TestMethod]
 		public void SimpleItemTest()
 		{
-			List<int> input = new List<int>() { 2, 1 };
+			int[] input = new [] { 2, 1 };
 			var output = MergeSort.Sort(input);
-			input.Sort();
+			Array.Sort(input);
 			Assert.IsNotNull(output);
 			Assert.IsTrue(output.Count == 2);
-			for(int i = 0; i < output.Count; i++)
+			for (int i = 0; i < output.Count; i++)
 			{
 				Assert.IsTrue(input[i] == output[i]);
 				Console.Write(output[i]);
-			}			
+			}
 		}
 
 		[TestMethod]
@@ -47,7 +47,7 @@ namespace Algorithms.Test
 		{
 			int count = 10000000;
 			List<int> input = GetRandomList(count);
-			var output = MergeSort.Sort(input);
+			var output = MergeSort.Sort(input.ToArray());
 			input.Sort();
 			Assert.IsNotNull(output);
 			Assert.IsTrue(output.Count == count);
@@ -61,7 +61,7 @@ namespace Algorithms.Test
 		private List<int> GetRandomList(int length)
 		{
 			List<int> output = new List<int>();
-			for(int i = 0; i < length; i++)
+			for (int i = 0; i < length; i++)
 			{
 				output.Add(new Random(i).Next());
 			}
